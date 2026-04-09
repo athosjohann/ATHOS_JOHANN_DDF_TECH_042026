@@ -1,24 +1,33 @@
-# ATHOS_JOHANN_DDF_TECH_042026
+gantt
+    title Cronograma da POC de Plataforma de Dados para E-commerce
+    dateFormat  YYYY-MM-DD
+    axisFormat  %d/%m
 
-# Case Técnico - Dadosfera
+    section Planejamento
+    Leitura do case e definição do escopo           :done, p1, 2026-04-09, 1d
+    Escolha da base e narrativa de negócio          :done, p2, 2026-04-09, 1d
+    Estruturação do repositório e README inicial    :p3, after p2, 1d
 
-## 1. Objetivo
-Construir uma POC de plataforma de dados para uma empresa de e-commerce, centralizando dados de catálogo de produtos para análises descritivas e geração de features com IA.
+    section Ingestão e Governança
+    Preparação e validação inicial da base          :d1, after p3, 1d
+    Ingestão da base na Dadosfera                   :d2, after d1, 1d
+    Catalogação e organização em camadas            :d3, after d2, 1d
 
-## 2. Base escolhida
-Foi escolhida uma base de produtos de e-commerce com mais de 100 mil registros, contendo campos textuais como título e descrição, adequada para enriquecimento com LLM e análises de catálogo.
+    section Qualidade e Processamento
+    Definição das regras de data quality            :q1, after d3, 1d
+    Execução do data quality e análise de achados   :q2, after q1, 1d
+    Padronização mínima dos dados                   :q3, after q2, 1d
+    Geração de features com LLM                     :g1, after q3, 1d
 
-## 3. Narrativa de negócio
-O cliente possui grande volume de dados de produtos com descrições não padronizadas. Isso impacta qualidade do catálogo, busca, categorização e análises. A proposta é integrar os dados na Dadosfera, catalogá-los, medir qualidade, enriquecer os textos com IA e disponibilizar dashboards e um data app.
+    section Analytics
+    Modelagem dimensional                           :m1, after g1, 1d
+    Criação de views e queries analíticas           :m2, after m1, 1d
+    Construção do dashboard                         :m3, after m2, 1d
 
-## 4. Planejamento
-- Escolha e preparação da base
-- Carga na Dadosfera
-- Catalogação
-- Data Quality
-- Geração de features com LLM
-- Modelagem
-- Dashboard
-- Pipeline
-- Data App
-- Apresentação final
+    section Operacionalização
+    Construção do pipeline                          :o1, after m3, 1d
+    Desenvolvimento do data app                     :o2, after o1, 1d
+
+    section Encerramento
+    Consolidação da documentação final              :f1, after o2, 1d
+    Gravação da apresentação e revisão final        :f2, after f1, 1d
