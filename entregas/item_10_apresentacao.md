@@ -133,14 +133,7 @@ Com a Dadosfera, o mesmo resultado foi atingido **em uma semana**, por um único
 
 ### 4.2 Custo total de ownership
 
-| | AWS (estimado/mês) | Dadosfera |
-|---|---|---|
-| Ingestão | Kinesis: ~$15–50 | Incluso |
-| Armazenamento | S3: ~$23/TB | Incluso |
-| Transformação | Glue/EMR: ~$100–500 | Incluso |
-| BI | QuickSight: $18/usuário | Metabase incluso |
-| Governança | AWS Glue Catalog: ~$1/10k objetos | Incluso |
-| **Total estimado** | **$150–600+/mês** | **Plano único** |
+A Dadosfera é significativamente mais barata que a arquitetura AWS equivalente porque elimina o custo de infraestrutura: não há serviços de ingestão, armazenamento, transformação, BI e governança para provisionar e pagar separadamente. Tudo que seria necessário montar com múltiplos serviços AWS está incluso em um único plano da plataforma.
 
 ### 4.3 Curva de aprendizado
 
@@ -185,4 +178,4 @@ flowchart TD
 
 ### Vídeo de apresentação
 
-> Link do YouTube (unlisted): _adicionar após gravação_
+[Assista no YouTube](https://youtu.be/PJooHCdhxko)

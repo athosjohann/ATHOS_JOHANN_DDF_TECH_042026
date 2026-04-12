@@ -124,16 +124,17 @@ Impacto
 
 ## Estimativa de Custos
 
-| Recurso | Tipo | Plano utilizado | Custo estimado |
-|---|---|---|---|
-| Dadosfera | Plataforma de dados | Trial gratuito | R$ 0,00 |
-| OpenAI API — DALL-E 3 | IA Generativa | Pay-as-you-go ($0,04/imagem) | ~R$ 0,60 (3 imagens) |
-| Streamlit Community Cloud | Deploy do Data App | Free tier | R$ 0,00 |
-| Google Colab | Execução de notebooks | Free tier | R$ 0,00 |
-| GitHub | Versionamento | Free tier | R$ 0,00 |
-| Metabase (via Dadosfera) | Visualização | Incluso no Trial | R$ 0,00 |
-| Olist Dataset (Kaggle) | Dados | Open license (CC BY-NC-SA 4.0) | R$ 0,00 |
-| **Total do projeto** | | | **~R$ 0,60** |
+| Recurso | Tipo | Plano utilizado |
+|---|---|---|
+| Dadosfera | Plataforma de dados | Trial gratuito |
+| OpenAI API — DALL-E 3 | IA Generativa | Pay-as-you-go |
+| Streamlit Community Cloud | Deploy do Data App | Free tier |
+| Google Colab | Execução de notebooks | Free tier |
+| GitHub | Versionamento | Free tier |
+| Metabase (via Dadosfera) | Visualização | Incluso no Trial |
+| Olist Dataset (Kaggle) | Dados | Open license (CC BY-NC-SA 4.0) |
+
+> A Dadosfera elimina o custo de infraestrutura — não há serviços de ingestão, armazenamento, transformação ou BI para provisionar separadamente, o que torna a solução significativamente mais econômica em comparação a montar o equivalente com serviços de cloud individuais.
 
 ---
 
