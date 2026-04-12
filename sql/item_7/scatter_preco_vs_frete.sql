@@ -1,0 +1,9 @@
+SELECT
+    "SELLER_ID",
+    AVG("PRICE")         AS avg_price,
+    AVG("FREIGHT_VALUE") AS avg_freight,
+    COUNT(*)             AS total_items
+FROM PUBLIC.TB__T4K4EC__OLIST_ORDER_ITEMS_DATASET_ATHOS_JOHANN
+GROUP BY "SELLER_ID"
+ORDER BY total_items DESC
+LIMIT 100
