@@ -2,6 +2,10 @@
 
 Case Técnico — Dadosfera | Athos Johann | Abril 2026
 
+### Vídeo de apresentação
+
+[Assista no YouTube](https://youtu.be/PJooHCdhxko)
+
 ## Objetivo
 
 Construir uma POC de plataforma de dados para uma empresa de e-commerce, centralizando dados de catálogo de produtos para análises descritivas e geração de features com IA, utilizando a Dadosfera como plataforma central.
