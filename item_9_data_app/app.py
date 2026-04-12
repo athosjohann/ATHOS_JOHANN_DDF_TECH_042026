@@ -1,9 +1,12 @@
+import os
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics.pairwise import cosine_similarity
+
+DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "olist_order_items_dataset.csv")
 
 st.set_page_config(
     page_title="E-commerce Analytics — Olist",
@@ -14,7 +17,7 @@ st.set_page_config(
 # ── DADOS ─────────────────────────────────────────────────────────────────────
 @st.cache_data
 def load_data():
-    df = pd.read_csv("data/olist_order_items_dataset.csv")
+    df = pd.read_csv(DATA_PATH)
     df.columns = [c.strip().lower().replace(" ", "_") for c in df.columns]
     df["price"]               = pd.to_numeric(df["price"], errors="coerce")
     df["freight_value"]       = pd.to_numeric(df["freight_value"], errors="coerce")
