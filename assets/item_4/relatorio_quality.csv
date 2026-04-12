@@ -1,0 +1,9 @@
+regra,coluna,sucesso,erros
+expect_column_values_to_not_be_null,ORDER_ID,True,0
+expect_column_values_to_not_be_null,ORDER_ITEM_ID,True,0
+expect_column_values_to_not_be_null,PRODUCT_ID,True,0
+expect_column_values_to_not_be_null,SELLER_ID,True,0
+expect_column_values_to_be_between,PRICE,True,0
+expect_column_values_to_be_between,FREIGHT_VALUE,True,0
+expect_column_values_to_not_be_null,SHIPPING_LIMIT_DATE,True,0
+expect_column_values_to_be_unique,ORDER_ITEM_KEY,True,0

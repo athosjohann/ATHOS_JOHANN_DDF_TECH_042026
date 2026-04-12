@@ -1,0 +1,8 @@
+original,cdm,descricao
+ORDER_ID,OrderId,Pedido
+ORDER_ITEM_ID,LineNumber,Item
+PRODUCT_ID,ProductId,Produto
+SELLER_ID,VendorId,Vendedor
+PRICE,UnitPrice,Preço
+FREIGHT_VALUE,ShippingCost,Frete
+SHIPPING_LIMIT_DATE,ShipDate,Envio
