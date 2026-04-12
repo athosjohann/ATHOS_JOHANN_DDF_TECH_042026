@@ -181,7 +181,7 @@ flowchart TD
 
 ### Diagrama de substituição arquitetural
 
-![Diagrama AWS vs Dadosfera](../assets/item_10/diagrama_substituicao.png)
+![Diagrama AWS vs Dadosfera](../assets/item_10/diagrama_substituicao.svg)
 
 ### Vídeo de apresentação
 

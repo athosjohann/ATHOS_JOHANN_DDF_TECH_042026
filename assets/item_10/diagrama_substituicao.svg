@@ -1,0 +1,120 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 560" width="1200" height="560">
+  <defs>
+    <marker id="arr-aws" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#cc7a00"/>
+    </marker>
+    <marker id="arr-ddf" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+      <polygon points="0 0, 10 3.5, 0 7" fill="#1a5276"/>
+    </marker>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.15"/>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="560" fill="#f0f2f5" rx="0"/>
+
+  <!-- ═══════════════════ AWS PANEL ═══════════════════ -->
+  <rect x="18" y="18" width="494" height="524" fill="#fffaf2" stroke="#FF9900" stroke-width="3" rx="14" filter="url(#shadow)"/>
+  <rect x="18" y="18" width="494" height="54" fill="#FF9900" rx="14"/>
+  <rect x="18" y="54" width="494" height="18" fill="#FF9900"/>
+  <text x="265" y="50" text-anchor="middle" fill="white" font-size="15" font-weight="bold" font-family="Arial, sans-serif">☁️  AWS — Arquitetura Atual</text>
+
+  <!-- Box 1: Lambda -->
+  <rect x="133" y="98" width="264" height="56" fill="#E8940A" rx="9" filter="url(#shadow)"/>
+  <text x="265" y="121" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Arial">λ  Generator (Lambda)</text>
+  <text x="265" y="141" text-anchor="middle" fill="#fff3cd" font-size="11" font-family="Arial">Gerador de eventos</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="265" y1="154" x2="265" y2="186" stroke="#cc7a00" stroke-width="2.5" marker-end="url(#arr-aws)"/>
+
+  <!-- Box 2: Kinesis Stream -->
+  <rect x="133" y="189" width="264" height="56" fill="#7D3C98" rx="9" filter="url(#shadow)"/>
+  <text x="265" y="212" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Arial">Kinesis Stream</text>
+  <text x="265" y="232" text-anchor="middle" fill="#e8daef" font-size="11" font-family="Arial">Streaming de dados em tempo real</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="265" y1="245" x2="265" y2="277" stroke="#7D3C98" stroke-width="2.5" marker-end="url(#arr-aws)"/>
+
+  <!-- Box 3: Firehose -->
+  <rect x="133" y="280" width="264" height="56" fill="#6C3483" rx="9" filter="url(#shadow)"/>
+  <text x="265" y="303" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Arial">Kinesis Firehose</text>
+  <text x="265" y="323" text-anchor="middle" fill="#d7bde2" font-size="11" font-family="Arial">Entrega de dados</text>
+
+  <!-- Split from Firehose -->
+  <line x1="265" y1="336" x2="265" y2="362" stroke="#6C3483" stroke-width="2"/>
+  <line x1="140" y1="362" x2="390" y2="362" stroke="#6C3483" stroke-width="2"/>
+  <line x1="140" y1="362" x2="140" y2="384" stroke="#D35400" stroke-width="2" marker-end="url(#arr-aws)"/>
+  <line x1="390" y1="362" x2="390" y2="384" stroke="#922B21" stroke-width="2" marker-end="url(#arr-aws)"/>
+
+  <!-- Box 4a: S3 Bucket -->
+  <rect x="44" y="387" width="192" height="56" fill="#D35400" rx="9" filter="url(#shadow)"/>
+  <text x="140" y="410" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="Arial">🪣  S3 Bucket</text>
+  <text x="140" y="430" text-anchor="middle" fill="#fdebd0" font-size="10" font-family="Arial">Armazenamento bruto</text>
+
+  <!-- Box 4b: Redis Cluster -->
+  <rect x="294" y="387" width="192" height="56" fill="#922B21" rx="9" filter="url(#shadow)"/>
+  <text x="390" y="410" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="Arial">⚡  Redis Cluster</text>
+  <text x="390" y="430" text-anchor="middle" fill="#fadbd8" font-size="10" font-family="Arial">Cache de consultas</text>
+
+  <!-- AWS Problem Banner -->
+  <rect x="36" y="466" width="456" height="58" fill="#fef9f0" stroke="#e59866" stroke-width="1.5" rx="9"/>
+  <text x="264" y="486" text-anchor="middle" fill="#c0392b" font-size="12" font-weight="bold" font-family="Arial">⚠️  Sem governança · Sem qualidade · Sem IA</text>
+  <text x="264" y="503" text-anchor="middle" fill="#7f8c8d" font-size="11" font-family="Arial">Dados armazenados sem gerar valor analítico</text>
+  <text x="264" y="518" text-anchor="middle" fill="#7f8c8d" font-size="11" font-family="Arial">Custo estimado: $150–600 / mês</text>
+
+  <!-- ═══════════════════ CENTER ═══════════════════ -->
+  <line x1="600" y1="55" x2="600" y2="505" stroke="#bdc3c7" stroke-width="1.5" stroke-dasharray="6,4"/>
+  <rect x="526" y="246" width="148" height="48" fill="#2c3e50" rx="24" filter="url(#shadow)"/>
+  <text x="600" y="265" text-anchor="middle" fill="white" font-size="10" font-weight="bold" font-family="Arial" letter-spacing="1">SUBSTITUÍDO</text>
+  <text x="600" y="282" text-anchor="middle" fill="#f39c12" font-size="13" font-weight="bold" font-family="Arial">POR  ⟶</text>
+
+  <!-- ═══════════════════ DADOSFERA PANEL ═══════════════════ -->
+  <rect x="688" y="18" width="494" height="524" fill="#eaf2fb" stroke="#1a5276" stroke-width="3" rx="14" filter="url(#shadow)"/>
+  <rect x="688" y="18" width="494" height="54" fill="#1a5276" rx="14"/>
+  <rect x="688" y="54" width="494" height="18" fill="#1a5276"/>
+  <text x="935" y="50" text-anchor="middle" fill="white" font-size="15" font-weight="bold" font-family="Arial, sans-serif">🔵  Dadosfera — Solução Proposta</text>
+
+  <!-- Box 1: Collect -->
+  <rect x="803" y="98" width="264" height="56" fill="#2980B9" rx="9" filter="url(#shadow)"/>
+  <text x="935" y="121" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Arial">Collect — Pipeline ETL</text>
+  <text x="935" y="141" text-anchor="middle" fill="#d6eaf8" font-size="11" font-family="Arial">PostgreSQL · Full Load · Encrypt seller_id</text>
+
+  <!-- Arrow 1→2 -->
+  <line x1="935" y1="154" x2="935" y2="186" stroke="#2471a3" stroke-width="2.5" marker-end="url(#arr-ddf)"/>
+
+  <!-- Box 2: Catalog + Quality -->
+  <rect x="803" y="189" width="264" height="56" fill="#1F618D" rx="9" filter="url(#shadow)"/>
+  <text x="935" y="212" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Arial">Catalog + Quality</text>
+  <text x="935" y="232" text-anchor="middle" fill="#aed6f1" font-size="11" font-family="Arial">Data Asset · Docs · Great Expectations</text>
+
+  <!-- Arrow 2→3 -->
+  <line x1="935" y1="245" x2="935" y2="277" stroke="#1F618D" stroke-width="2.5" marker-end="url(#arr-ddf)"/>
+
+  <!-- Box 3: Pipeline Spark -->
+  <rect x="803" y="280" width="264" height="56" fill="#1a5276" rx="9" filter="url(#shadow)"/>
+  <text x="935" y="303" text-anchor="middle" fill="white" font-size="13" font-weight="bold" font-family="Arial">Process — Pipeline Spark</text>
+  <text x="935" y="323" text-anchor="middle" fill="#a9cce3" font-size="11" font-family="Arial">Bronze → Silver → Gold · Star Schema</text>
+
+  <!-- Split from Pipeline -->
+  <line x1="935" y1="336" x2="935" y2="362" stroke="#1a5276" stroke-width="2"/>
+  <line x1="810" y1="362" x2="1060" y2="362" stroke="#1a5276" stroke-width="2"/>
+  <line x1="810" y1="362" x2="810" y2="384" stroke="#1F618D" stroke-width="2" marker-end="url(#arr-ddf)"/>
+  <line x1="1060" y1="362" x2="1060" y2="384" stroke="#154360" stroke-width="2" marker-end="url(#arr-ddf)"/>
+
+  <!-- Box 4a: Metabase -->
+  <rect x="714" y="387" width="192" height="56" fill="#1F618D" rx="9" filter="url(#shadow)"/>
+  <text x="810" y="410" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="Arial">📊  Metabase</text>
+  <text x="810" y="430" text-anchor="middle" fill="#aed6f1" font-size="10" font-family="Arial">Dashboard + Alertas Slack</text>
+
+  <!-- Box 4b: Streamlit + DALL-E -->
+  <rect x="964" y="387" width="192" height="56" fill="#154360" rx="9" filter="url(#shadow)"/>
+  <text x="1060" y="407" text-anchor="middle" fill="white" font-size="12" font-weight="bold" font-family="Arial">🤖  Streamlit + DALL-E</text>
+  <text x="1060" y="425" text-anchor="middle" fill="#85c1e9" font-size="10" font-family="Arial">Data App + IA Generativa</text>
+
+  <!-- Dadosfera Benefits Banner -->
+  <rect x="706" y="466" width="456" height="58" fill="#eaf4fb" stroke="#2e86c1" stroke-width="1.5" rx="9"/>
+  <text x="934" y="486" text-anchor="middle" fill="#1a5276" font-size="12" font-weight="bold" font-family="Arial">✅  Governança · Qualidade · Modelagem · IA</text>
+  <text x="934" y="503" text-anchor="middle" fill="#5d6d7e" font-size="11" font-family="Arial">Plataforma unificada — dados gerando valor em dias</text>
+  <text x="934" y="518" text-anchor="middle" fill="#5d6d7e" font-size="11" font-family="Arial">Custo da POC: ~R$ 0,60  (apenas DALL-E)</text>
+</svg>
