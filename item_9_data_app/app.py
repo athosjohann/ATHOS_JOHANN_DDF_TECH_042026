@@ -296,12 +296,43 @@ elif aba == "Gerador de Apresentação":
         .head(50)
     )
 
-    produto_id  = st.selectbox(
+    produto_id = st.selectbox(
         "Produto (top 50 por receita)",
         top_produtos.index,
         format_func=lambda x: f"{x[:20]}… | R$ {top_produtos.loc[x,'receita']:,.0f}"
     )
     stats = top_produtos.loc[produto_id]
+
+    # ── Defaults automáticos por faixa de preço ───────────────────────────
+    def defaults_por_preco(s):
+        p = s["preco_medio"]
+        if p < 30:
+            nome = "Produto de Casa e Cozinha"
+            cat  = "Utilidades Domésticas"
+            pub  = "Famílias e consumidores em geral"
+        elif p < 80:
+            nome = "Acessório Premium"
+            cat  = "Moda e Acessórios"
+            pub  = "Jovens adultos e fashionistas"
+        elif p < 200:
+            nome = "Gadget Tecnológico"
+            cat  = "Eletrônicos e Gadgets"
+            pub  = "Entusiastas de tecnologia"
+        else:
+            nome = "Produto Premium de Alto Valor"
+            cat  = "Eletrônicos Premium"
+            pub  = "Consumidores exigentes e profissionais"
+
+        difs = []
+        if s["pedidos"] > 50:
+            difs.append(f"Alta demanda — {int(s['pedidos'])} pedidos realizados")
+        if s["frete_medio"] < s["preco_medio"] * 0.15:
+            difs.append("Frete acessível em relação ao valor do produto")
+        difs.append(f"Preço médio competitivo de R$ {s['preco_medio']:.2f}")
+        difs.append("Vendido por seller verificado no marketplace")
+        return nome, cat, pub, "\n".join(difs)
+
+    d_nome, d_cat, d_pub, d_difs = defaults_por_preco(stats)
 
     st.divider()
 
@@ -316,14 +347,14 @@ elif aba == "Gerador de Apresentação":
         st.metric("Total de itens",      f"{int(stats['total_itens']):,}")
 
     with col_form:
-        st.subheader("Configure a apresentação")
-        nome_produto = st.text_input("Nome do produto",    placeholder="Ex: Fone de Ouvido Bluetooth Premium")
-        categoria    = st.text_input("Categoria",          placeholder="Ex: Eletrônicos")
-        publico      = st.text_input("Público-alvo",       placeholder="Ex: Jovens adultos, amantes de música")
+        st.subheader("Apresentação (editável)")
+        nome_produto = st.text_input("Nome do produto",   value=d_nome)
+        categoria    = st.text_input("Categoria",         value=d_cat)
+        publico      = st.text_input("Público-alvo",      value=d_pub)
         diferenciais = st.text_area(
             "Principais diferenciais (um por linha)",
-            placeholder="Cancelamento de ruído\nBateria 30h\nConexão multiponto",
-            height=100
+            value=d_difs,
+            height=120
         )
         estilo_img = st.selectbox("Estilo da imagem gerada", [
             "foto comercial profissional, fundo branco, iluminação de estúdio",
@@ -335,58 +366,55 @@ elif aba == "Gerador de Apresentação":
     gerar = st.button("✨ Gerar Apresentação com DALL-E", type="primary", use_container_width=True)
 
     if gerar:
-        if not nome_produto:
-            st.warning("Preencha o nome do produto antes de gerar.")
-        else:
-            prompt = (
-                f"Professional e-commerce product image: {nome_produto}, {categoria}. "
-                f"{estilo_img}. "
-                f"High quality, commercial photography style, suitable for online marketplace. "
-                f"No text or watermarks."
-            )
+        prompt = (
+            f"Professional e-commerce product image: {nome_produto}, {categoria}. "
+            f"{estilo_img}. "
+            f"High quality, commercial photography style, suitable for online marketplace. "
+            f"No text or watermarks."
+        )
 
-            with st.spinner("Gerando imagem com DALL-E 3…"):
-                try:
-                    client   = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
-                    response = client.images.generate(
-                        model="dall-e-3",
-                        prompt=prompt,
-                        size="1024x1024",
-                        quality="standard",
-                        response_format="b64_json",
-                        n=1,
-                    )
-                    img_bytes = base64.b64decode(response.data[0].b64_json)
-                    img       = Image.open(io.BytesIO(img_bytes))
-                except Exception as e:
-                    st.error(f"Erro ao chamar DALL-E: {e}")
-                    st.stop()
+        with st.spinner("Gerando imagem com DALL-E 3…"):
+            try:
+                client   = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+                response = client.images.generate(
+                    model="dall-e-3",
+                    prompt=prompt,
+                    size="1024x1024",
+                    quality="standard",
+                    response_format="b64_json",
+                    n=1,
+                )
+                img_bytes = base64.b64decode(response.data[0].b64_json)
+                img       = Image.open(io.BytesIO(img_bytes))
+            except Exception as e:
+                st.error(f"Erro ao chamar DALL-E: {e}")
+                st.stop()
+
+        st.divider()
+        st.subheader(f"📦 Apresentação — {nome_produto}")
+
+        col_img, col_info = st.columns([1, 1])
+
+        with col_img:
+            st.image(img, use_container_width=True)
+
+        with col_info:
+            diferenciais_lista = [d.strip() for d in diferenciais.splitlines() if d.strip()]
+
+            st.markdown(f"**Categoria:** {categoria}")
+            st.markdown(f"**Público-alvo:** {publico}")
+
+            if diferenciais_lista:
+                st.markdown("**Diferenciais:**")
+                for d in diferenciais_lista:
+                    st.markdown(f"- ✅ {d}")
 
             st.divider()
-            st.subheader(f"📦 Apresentação — {nome_produto}")
+            st.markdown("**Desempenho no marketplace:**")
+            st.markdown(f"- 💰 Receita total: R$ {stats['receita']:,.2f}")
+            st.markdown(f"- 📦 Pedidos: {int(stats['pedidos']):,}")
+            st.markdown(f"- 💵 Preço médio: R$ {stats['preco_medio']:.2f}")
+            st.markdown(f"- 🚚 Frete médio: R$ {stats['frete_medio']:.2f}")
 
-            col_img, col_info = st.columns([1, 1])
-
-            with col_img:
-                st.image(img, use_container_width=True)
-
-            with col_info:
-                diferenciais_lista = [d.strip() for d in diferenciais.splitlines() if d.strip()]
-
-                st.markdown(f"**Categoria:** {categoria}")
-                st.markdown(f"**Público-alvo:** {publico}")
-
-                if diferenciais_lista:
-                    st.markdown("**Diferenciais:**")
-                    for d in diferenciais_lista:
-                        st.markdown(f"- ✅ {d}")
-
-                st.divider()
-                st.markdown("**Desempenho no marketplace:**")
-                st.markdown(f"- 💰 Receita total: R$ {stats['receita']:,.2f}")
-                st.markdown(f"- 📦 Pedidos: {int(stats['pedidos']):,}")
-                st.markdown(f"- 💵 Preço médio: R$ {stats['preco_medio']:.2f}")
-                st.markdown(f"- 🚚 Frete médio: R$ {stats['frete_medio']:.2f}")
-
-            with st.expander("🔍 Prompt utilizado (DALL-E 3)"):
-                st.code(prompt, language="text")
+        with st.expander("🔍 Prompt utilizado (DALL-E 3)"):
+            st.code(prompt, language="text")
