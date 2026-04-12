@@ -4,6 +4,8 @@
 
 Data App desenvolvido com **Streamlit** para exploração interativa dos dados de `olist_order_items_dataset`, cobrindo EDA geral, análise por seller e similaridade entre produtos.
 
+**App publicado:** [athosjohannddftech042026.streamlit.app](https://athosjohannddftech042026-bhnzunzfetvedwqddt4qnz.streamlit.app/)
+
 **Código-fonte:** [item_9_data_app/app.py](../item_9_data_app/app.py)
 
 ## Páginas do app
