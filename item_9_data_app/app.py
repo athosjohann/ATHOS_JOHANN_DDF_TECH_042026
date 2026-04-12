@@ -1,10 +1,14 @@
 import os
+import io
+import base64
 import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.metrics.pairwise import cosine_similarity
+from openai import OpenAI
+from PIL import Image
 
 DATA_PATH = os.path.join(os.path.dirname(__file__), "data", "olist_order_items_dataset.csv")
 
@@ -33,7 +37,7 @@ st.sidebar.title("🛒 Olist Analytics")
 st.sidebar.caption("E-commerce Order Items Dataset")
 aba = st.sidebar.radio(
     "Navegação",
-    ["Visão Geral", "Análise por Seller", "Similaridade de Produtos"]
+    ["Visão Geral", "Análise por Seller", "Similaridade de Produtos", "Gerador de Apresentação"]
 )
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -266,3 +270,123 @@ elif aba == "Similaridade de Produtos":
         "Similaridade calculada via cosine similarity sobre features normalizadas "
         "(MinMaxScaler): preço médio, frete médio e volume de pedidos."
     )
+
+
+# ═════════════════════════════════════════════════════════════════════════════
+# ABA 4 — GERADOR DE APRESENTAÇÃO (GenAI + DALL-E)
+# ═════════════════════════════════════════════════════════════════════════════
+elif aba == "Gerador de Apresentação":
+    st.title("🎯 Gerador de Apresentação de Produto")
+    st.markdown(
+        "Selecione um produto do dataset, preencha as informações de venda "
+        "e gere uma imagem comercial com **DALL-E 3** para compor a apresentação."
+    )
+
+    # ── Selecionar produto ────────────────────────────────────────────────
+    top_produtos = (
+        df.groupby("product_id")
+        .agg(
+            receita      =("price",         "sum"),
+            pedidos      =("order_id",       "nunique"),
+            preco_medio  =("price",          "mean"),
+            frete_medio  =("freight_value",  "mean"),
+            total_itens  =("order_item_id",  "count"),
+        )
+        .sort_values("receita", ascending=False)
+        .head(50)
+    )
+
+    produto_id  = st.selectbox(
+        "Produto (top 50 por receita)",
+        top_produtos.index,
+        format_func=lambda x: f"{x[:20]}… | R$ {top_produtos.loc[x,'receita']:,.0f}"
+    )
+    stats = top_produtos.loc[produto_id]
+
+    st.divider()
+
+    col_stats, col_form = st.columns([1, 1])
+
+    with col_stats:
+        st.subheader("Dados do produto no marketplace")
+        st.metric("Receita total (R$)",  f"{stats['receita']:,.2f}")
+        st.metric("Pedidos realizados",  f"{int(stats['pedidos']):,}")
+        st.metric("Preço médio (R$)",    f"{stats['preco_medio']:.2f}")
+        st.metric("Frete médio (R$)",    f"{stats['frete_medio']:.2f}")
+        st.metric("Total de itens",      f"{int(stats['total_itens']):,}")
+
+    with col_form:
+        st.subheader("Configure a apresentação")
+        nome_produto = st.text_input("Nome do produto",    placeholder="Ex: Fone de Ouvido Bluetooth Premium")
+        categoria    = st.text_input("Categoria",          placeholder="Ex: Eletrônicos")
+        publico      = st.text_input("Público-alvo",       placeholder="Ex: Jovens adultos, amantes de música")
+        diferenciais = st.text_area(
+            "Principais diferenciais (um por linha)",
+            placeholder="Cancelamento de ruído\nBateria 30h\nConexão multiponto",
+            height=100
+        )
+        estilo_img = st.selectbox("Estilo da imagem gerada", [
+            "foto comercial profissional, fundo branco, iluminação de estúdio",
+            "lifestyle moderno, ambiente clean e minimalista",
+            "flat lay elegante sobre superfície de mármore",
+            "renderização 3D realista, fundo gradiente",
+        ])
+
+    gerar = st.button("✨ Gerar Apresentação com DALL-E", type="primary", use_container_width=True)
+
+    if gerar:
+        if not nome_produto:
+            st.warning("Preencha o nome do produto antes de gerar.")
+        else:
+            prompt = (
+                f"Professional e-commerce product image: {nome_produto}, {categoria}. "
+                f"{estilo_img}. "
+                f"High quality, commercial photography style, suitable for online marketplace. "
+                f"No text or watermarks."
+            )
+
+            with st.spinner("Gerando imagem com DALL-E 3…"):
+                try:
+                    client   = OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
+                    response = client.images.generate(
+                        model="dall-e-3",
+                        prompt=prompt,
+                        size="1024x1024",
+                        quality="standard",
+                        response_format="b64_json",
+                        n=1,
+                    )
+                    img_bytes = base64.b64decode(response.data[0].b64_json)
+                    img       = Image.open(io.BytesIO(img_bytes))
+                except Exception as e:
+                    st.error(f"Erro ao chamar DALL-E: {e}")
+                    st.stop()
+
+            st.divider()
+            st.subheader(f"📦 Apresentação — {nome_produto}")
+
+            col_img, col_info = st.columns([1, 1])
+
+            with col_img:
+                st.image(img, use_container_width=True)
+
+            with col_info:
+                diferenciais_lista = [d.strip() for d in diferenciais.splitlines() if d.strip()]
+
+                st.markdown(f"**Categoria:** {categoria}")
+                st.markdown(f"**Público-alvo:** {publico}")
+
+                if diferenciais_lista:
+                    st.markdown("**Diferenciais:**")
+                    for d in diferenciais_lista:
+                        st.markdown(f"- ✅ {d}")
+
+                st.divider()
+                st.markdown("**Desempenho no marketplace:**")
+                st.markdown(f"- 💰 Receita total: R$ {stats['receita']:,.2f}")
+                st.markdown(f"- 📦 Pedidos: {int(stats['pedidos']):,}")
+                st.markdown(f"- 💵 Preço médio: R$ {stats['preco_medio']:.2f}")
+                st.markdown(f"- 🚚 Frete médio: R$ {stats['frete_medio']:.2f}")
+
+            with st.expander("🔍 Prompt utilizado (DALL-E 3)"):
+                st.code(prompt, language="text")
