@@ -28,6 +28,7 @@ O cliente possui grande volume de dados de produtos com descrições não padron
 | [8 - Pipeline](entregas/item_8_pipeline.md) | ETL Bronze→Silver→Gold com Apache Spark (bônus Spark) | ✅ Concluído |
 | [9 - Data App](entregas/item_9_data_app.md) | Streamlit: EDA + Análise por Seller + Similaridade de Produtos | ✅ Concluído |
 | [Bônus - GenAI](entregas/item_bonus_genai.md) | Gerador de apresentação de produto com DALL-E 3 integrado ao Data App | ✅ Concluído |
+| [10 - Apresentação](entregas/item_10_apresentacao.md) | POC: substituição da arquitetura AWS pela Dadosfera | ✅ Concluído |
 
 ## Data App
 
